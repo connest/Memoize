@@ -51,8 +51,8 @@ int main()
     // Работа со статическими фунциями - указатель на функцию
     // использование decltype() невозможно, так как функция перезгружена - нужно
     // уточнение параметров
-    Memoize<int(*)(int, int), int, int> msf(&static_func);
-    Memoize<string(*)(string, string), string, string> overloaded(&static_func);
+    Memoize<int(int, int)> msf(&static_func);
+    Memoize<string(string, string)> overloaded(&static_func);
 
     cout << msf(4,3)<<endl; // new
     cout << msf(4,3)<<endl; // from cache

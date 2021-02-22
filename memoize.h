@@ -75,5 +75,54 @@ public:
     }
 };
 
+template <typename ReturnType,
+          typename ...Args>
+class Memoize<ReturnType(Args...)> {
+protected:
+    ReturnType (*function)(Args...);
+    std::map<std::tuple<Args...>, ReturnType> cache;
+
+public:
+    /**
+     * @brief Memoize Конструктор
+     * @param function функтор, указатель на фукнцию
+     */
+    Memoize(ReturnType (*function)(Args...))
+        : function(std::move(function))
+    {}
+
+    Memoize(const Memoize&) = default;
+    Memoize(Memoize&&) = default;
+
+    /**
+     * @brief operator () Поиск ответа и/или вызов функции
+     * @param args Аргументы функции
+     * @return результат работы функции
+     */
+    ReturnType operator()(Args&&... args)
+    {
+        std::tuple<Args...> tupled_args { std::make_tuple(args...) };
+
+        auto iter = cache.lower_bound(tupled_args);
+        if((iter != cache.end()) && (iter->first == tupled_args)) {
+            return iter->second;
+
+        } else {
+            ReturnType return_value = function(std::forward<Args>(args)...);
+            cache.emplace_hint(iter, tupled_args, return_value);
+
+            return return_value;
+        }
+
+    }
+
+    /**
+     * @brief clear Очистить кеш
+     */
+    void clear()
+    {
+        cache.clear();
+    }
+};
 
 #endif // MEMOIZE_H

@@ -23,6 +23,7 @@
  *  - сохранение копий параметров
  */
 
+
 template <typename Func,
           typename ...Args>
 class Memoize {
@@ -85,7 +86,7 @@ protected:
 public:
     /**
      * @brief Memoize Конструктор
-     * @param function функтор, указатель на фукнцию
+     * @param указатель на фукнцию
      */
     Memoize(ReturnType (*function)(Args...))
         : function(std::move(function))

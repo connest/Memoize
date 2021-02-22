@@ -7,9 +7,6 @@
 using namespace std;
 
 
-
-
-
 // статическия функция
 string static_func(string a, string b) {
     return a + b;
@@ -36,7 +33,7 @@ int main()
         return a + b;
     };
 
-    Memoize<decltype (f), int, double> m(f);
+    Memoize<double(int, double)> m(f);
 
     cout << m(1, 4.9) << endl; // new
     cout << m(1, 4.9) << endl; // from cache
@@ -74,13 +71,14 @@ int main()
     // на объект класса
     // ВАЖНО: метод является чистым
     auto callable = std::mem_fn(&MaxClass::member_func);
-    Memoize<decltype (callable), MaxClass*, double, double> m_class(callable);
+    Memoize<decltype(callable), MaxClass*, double, double> m_class(callable);
 
     cout << m_class(&obj, 10.0, 20.0) << endl; // new
     cout << m_class(&obj, 10.0, 20.0) << endl; // from cache
     cout << m_class(&obj, 10.0, 20.0) << endl; // from cache
     cout << m_class(&obj, 20.0, 21.0) << endl; // new
     cout << m_class(&obj, 20.0, 21.0) << endl; // from cache
+
 
     return 0;
 }

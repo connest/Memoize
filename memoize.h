@@ -43,6 +43,7 @@ class Memoize<ReturnType(Args...)> {
      */
     explicit Memoize(ReturnType(*func)(Args...))
         : function {std::move(std::function<ReturnType(Args...)>(func))}
+        , cache {}
     {}
 
     /**
@@ -52,6 +53,7 @@ class Memoize<ReturnType(Args...)> {
     template <typename Functor>
     explicit Memoize(Functor functor)
         : function(std::move(functor))
+        , cache {}
     {}
 
     Memoize(const Memoize&) = default;

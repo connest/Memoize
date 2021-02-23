@@ -28,6 +28,7 @@ public:
 int main()
 {
     using namespace connest;
+
     // Работа с функторами
 
     auto f = [](int a, double b) -> double {

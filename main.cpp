@@ -65,13 +65,12 @@ int main()
     cout << overloaded("c ", "s") << endl; // from cache
 
     // Работа с методами класса
-    MaxClass obj;
-
     // Преобразование члена-функции класса в функтор, принимающий указатель
     // на объект класса
     // ВАЖНО: метод является чистым
-    auto callable = std::mem_fn(&MaxClass::member_func);
-    Memoize<decltype(callable), MaxClass*, double, double> m_class(callable);
+    Memoize<double(MaxClass*, double, double)> m_class(&MaxClass::member_func);
+
+    MaxClass obj;
 
     cout << m_class(&obj, 10.0, 20.0) << endl; // new
     cout << m_class(&obj, 10.0, 20.0) << endl; // from cache
@@ -79,6 +78,17 @@ int main()
     cout << m_class(&obj, 20.0, 21.0) << endl; // new
     cout << m_class(&obj, 20.0, 21.0) << endl; // from cache
 
+
+    // std::function interface
+    std::function<double(int, double)> functor{f};
+    Memoize<double(int, double)> m_functor(functor);
+
+
+    cout << m(1, 4.9) << endl; // new
+    cout << m(1, 4.9) << endl; // from cache
+    cout << m(1, 4.9) << endl; // from cache
+    cout << m(2, 4.9) << endl; // new
+    cout << m(2, 4.9) << endl; // from cache
 
     return 0;
 }

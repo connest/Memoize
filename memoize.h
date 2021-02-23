@@ -4,7 +4,6 @@
 #include <map>
 #include <tuple>
 #include <functional>
-#include <iostream>
 
 /**
  * @brief The Memoize class

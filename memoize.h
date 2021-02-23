@@ -5,6 +5,7 @@
 #include <tuple>
 #include <functional>
 
+namespace connest {
 /**
  * @brief The Memoize class
  *
@@ -30,12 +31,12 @@ class Memoize{};
 template <typename ReturnType,
           typename ... Args>
 class Memoize<ReturnType(Args...)> {
-protected:
+    protected:
 
     std::function<ReturnType(Args...)> function;
     std::map<std::tuple<Args...>, ReturnType> cache;
 
-public:
+    public:
     /**
      * @brief Memoize Конструктор
      * @param func std::function интерфейс
@@ -87,5 +88,6 @@ public:
     }
 };
 
+}
 
 #endif // MEMOIZE_H

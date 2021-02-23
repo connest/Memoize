@@ -21,7 +21,7 @@ auto f = [](int a, double b) -> double {
     return a + b;
 };
 
-Memoize<double(int, double)> m(f);
+connest::Memoize<double(int, double)> m(f);
 
 cout << m(1, 4.9) << endl; // new
 cout << m(1, 4.9) << endl; // from cache
@@ -50,8 +50,8 @@ int static_func(int a, int b) {
     return a - b;
 }
 
-Memoize<int(int, int)> msf(&static_func);
-Memoize<string(string, string)> overloaded(&static_func);
+connest::Memoize<int(int, int)> msf(&static_func);
+connest::Memoize<string(string, string)> overloaded(&static_func);
 
 cout << msf(4,3)<<endl; // new
 cout << msf(4,3)<<endl; // from cache
@@ -81,7 +81,7 @@ public:
 // Преобразование члена-функции класса в функтор, принимающий указатель
 // на объект класса
 // ВАЖНО: метод является чистым
-Memoize<double(MaxClass*, double, double)> m_class(&MaxClass::member_func);
+connest::Memoize<double(MaxClass*, double, double)> m_class(&MaxClass::member_func);
 
 MaxClass obj;
 
@@ -97,7 +97,7 @@ cout << m_class(&obj, 20.0, 21.0) << endl; // from cache
 
 ```
 std::function<double(int, double)> functor{f};
-Memoize<double(int, double)> m_functor(functor);
+connest::Memoize<double(int, double)> m_functor(functor);
 
 
 cout << m(1, 4.9) << endl; // new
